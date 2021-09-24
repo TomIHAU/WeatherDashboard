@@ -1,0 +1,28 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+header {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 30px;
+}
+h1 {
+  margin: 0;
+}
+aside {
+  float: left;
+  width: 25%;
+  height: 100%;
+  background-color: burlywood;
+  flex-direction: column;
+  padding: 10px;
+}
+#searchForm {
+  flex-direction: column;
+}
+button {
+  align-items: center;
+}
