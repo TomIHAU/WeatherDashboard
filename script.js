@@ -24,19 +24,40 @@ function getInfo(event){
     })
     .then(function(Api){
         console.log(Api)
-        for(let i = 0; i < Api.list.length; i += 8){
-            console.log(Api.list[i].weather[0].icon)
+        displayResults(Api);
+    })
+}
+
+function displayResults(theObject){
+    for(let i = 0; i < Api.list.length; i += 8){
+
+        var weatherCardEl = document.createElement('div')
+        weatherEl.classList = "infoCard";
+
+        // var icon = document.createElement("i")
+        // icon.src = "http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png"
+
+        var dateEl = document.createElement("h4");
+        dateEl.innerText = moment.unix(Api.list[i].dt).format("DD/MM/YYYY");
+
+        var tempEl = document.createElement("div");
+        tempEl.innerText = "Temp:" + Api.list[i].main.temp + "°C";
+
+        var humidityEl = document.createElement("div");
+        humidityEl.innerText = "Humidity:"+ Api.list[i].main.humidity; +"%"
+
+        var windSpeedEl = document.createElement("div");
+        windSpeedEl.innerText ="Wind:" + (Api.list[i].wind.speed * 3.6) + "km/h"
+
+        
+
+        console.log(Api.list[i].weather[0].icon)
         console.log("http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png")
-        console.log(moment.unix(Api.list[i].dt).format("DD/MM/YYYY"))
+        console.log(moment.unix(Api.list[i].dt).format("DD/MM/YYYY  LLLL"))
         console.log(Math.round(Api.list[i].main.temp))
         console.log(Api.list[i].main.humidity)
         console.log(Math.round(Api.list[i].wind.speed * 3.6))
     }
-    })
-}
-
-function displayResults(){
-    
 }
 //api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
 //apikey = 43ae064b43fdce4552702399802b6511
