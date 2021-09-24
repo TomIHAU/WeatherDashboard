@@ -1,11 +1,14 @@
 var searchFormEl = document.querySelector("#searchForm");
 var searchHistoryEl = document.querySelector(".searchHistory");
+var resultsEl = document.querySelector(".results");
+var oldBtn = document.querySelector("ul")
+var pastSearch = [];
+var pastResult = [];
 
 function getInfo(event){
     event.preventDefault();
     var searchInputVal = document.querySelector("#searchInput").value.trim();
-
-    console.log(searchInputVal);
+    pastSearch.push(searchInputVal);
 
     if (!searchInputVal){
         console.log("please search for a city")
@@ -13,7 +16,7 @@ function getInfo(event){
     }
 
     var searchApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInputVal + "&appid=43ae064b43fdce4552702399802b6511&units=metric"
-    console.log(searchApi);
+    //console.log(searchApi);
 
     fetch(searchApi)
     .then(function(response){
@@ -23,50 +26,81 @@ function getInfo(event){
         return response.json()
     })
     .then(function(Api){
-        console.log(Api)
+        //console.log(Api)
         displayResults(Api);
     })
 }
 
-function displayResults(theObject){
+function displayResults(Api){
+    pastResult.push(Api)
+
+    resultsEl.innerHTML = "";
     for(let i = 0; i < Api.list.length; i += 8){
 
         var weatherCardEl = document.createElement('div')
-        weatherEl.classList = "infoCard";
-
-        // var icon = document.createElement("i")
-        // icon.src = "http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png"
+        weatherCardEl.classList = "infoCard";
 
         var dateEl = document.createElement("h4");
         dateEl.innerText = moment.unix(Api.list[i].dt).format("DD/MM/YYYY");
+        weatherCardEl.appendChild(dateEl)
+
+        var icon = document.createElement("i")
+        icon.src = "http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png"
+        weatherCardEl.appendChild(icon)
 
         var tempEl = document.createElement("div");
-        tempEl.innerText = "Temp:" + Api.list[i].main.temp + "°C";
+        tempEl.innerText = "Temp: " + Math.round(Api.list[i].main.temp) + " °C";
+        weatherCardEl.appendChild(tempEl)
+        
+        var windSpeedEl = document.createElement("div");
+        windSpeedEl.innerText ="Wind: " + Math.round(Api.list[i].wind.speed * 3.6) + " km/h"
+        weatherCardEl.appendChild(windSpeedEl)
 
         var humidityEl = document.createElement("div");
-        humidityEl.innerText = "Humidity:"+ Api.list[i].main.humidity; +"%"
-
-        var windSpeedEl = document.createElement("div");
-        windSpeedEl.innerText ="Wind:" + (Api.list[i].wind.speed * 3.6) + "km/h"
+        humidityEl.innerText = "Humidity: "+ Api.list[i].main.humidity +" %"
+        weatherCardEl.appendChild(humidityEl)
+        
+        resultsEl.appendChild(weatherCardEl)
 
         
+        
+        //console.log(Api.list[i].weather[0].icon)
+        //console.log("http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png")
+        
+    }
+    createList();
+}
 
-        console.log(Api.list[i].weather[0].icon)
-        console.log("http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png")
-        console.log(moment.unix(Api.list[i].dt).format("DD/MM/YYYY  LLLL"))
-        console.log(Math.round(Api.list[i].main.temp))
-        console.log(Api.list[i].main.humidity)
-        console.log(Math.round(Api.list[i].wind.speed * 3.6))
+function displayOld(event){
+    var index = event.target.data-index;
+    console.log("hello");
+    console.log(index)
+    // console.log(pastResult[index])
+    // displayResults(pastResult[index]);
+
+}
+
+function createList(){
+    searchHistoryEl.innerHTML = "";
+    if(pastSearch.length > 5){
+        console.log("hello")
+        pastSearch.shift();
+        pastResult.shift();
+    }
+    console.log(pastResult);
+    console.log(pastSearch);
+
+    for(let i = 0; i < pastResult.length; i++){
+        
+        var button = document.createElement("button")
+        button.innerText = pastSearch[i];
+        button.setAttribute("data-index", i);
+        
+        var li = document.createElement("li");
+        li.appendChild(button)
+
+        searchHistoryEl.appendChild(li);
     }
 }
-//api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
-//apikey = 43ae064b43fdce4552702399802b6511
-//&units=metric
-/////  the temperature,         list[i].main.temp
-///the humidity,                list[i].main.humidity
-
-//the wind speed,                list[i].wind.speed
-//and the UV index    
-
-
+oldBtn.addEventListener("click", displayOld);
 searchFormEl.addEventListener("submit", getInfo);
