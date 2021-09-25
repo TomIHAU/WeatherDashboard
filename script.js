@@ -27,12 +27,13 @@ function getInfo(event){
     })
     .then(function(Api){
         //console.log(Api)
+        pastResult.push(Api)
         displayResults(Api);
     })
 }
 
 function displayResults(Api){
-    pastResult.push(Api)
+    
 
     resultsEl.innerHTML = "";
     for(let i = 0; i < Api.list.length; i += 8){
@@ -72,12 +73,15 @@ function displayResults(Api){
 }
 
 function displayOld(event){
-    var index = event.target.data-index;
-    console.log("hello");
+    var element = event.target;
+    if (element.matches("button") === true) {
+        
+        var index = element.getAttribute("data-index");
+        console.log("hello");
     console.log(index)
-    // console.log(pastResult[index])
-    // displayResults(pastResult[index]);
-
+    console.log(pastResult[index])
+    displayResults(pastResult[index]);
+    }
 }
 
 function createList(){
@@ -104,3 +108,6 @@ function createList(){
 }
 oldBtn.addEventListener("click", displayOld);
 searchFormEl.addEventListener("submit", getInfo);
+
+
+/////// the buttons need to not call the input, but rather need to call the right ## in the array

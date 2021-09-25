@@ -1,3 +1,7 @@
+:root {
+  --sideColor: #1503b6;
+}
+
 html,
 body {
   margin: 0;
@@ -13,10 +17,11 @@ h1 {
   margin: 0;
 }
 aside {
+  color: white;
   float: left;
   width: 25%;
   height: 100%;
-  background-color: burlywood;
+  background-color: var(--sideColor);
   flex-direction: column;
   padding: 10px;
 }
@@ -32,4 +37,22 @@ button {
 }
 ul {
   list-style: none;
+  padding: 0;
+  text-align: center;
+}
+li button {
+  background-color: var(--sideColor);
+  color: white;
+  border: 2px solid white;
+  margin: 10px 0;
+  width: 140px;
+  height: 40px;
+  align-items: center;
+  text-align: center;
+  line-height: 1.1em;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+li button:hover {
+  background-color: #405de0;
 }
