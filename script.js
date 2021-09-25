@@ -24,7 +24,10 @@ function getInfo(event){
             throw(error);
         }
         return response.json()
-    })
+    }).catch(function(err){
+        console.log(err);
+        return "this is the answer";
+      })
     .then(function(Api){
         //console.log(Api)
         pastResult.push(Api)

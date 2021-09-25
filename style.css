@@ -26,20 +26,35 @@ aside {
   padding: 10px;
 }
 #searchForm {
+  display: flex;
   flex-direction: column;
 }
+#searchInput {
+  padding: 12px 10px;
+}
+h2 {
+  text-align: center;
+}
 button {
-  align-items: center;
+  background-color: darkslategrey;
+  border: white solid;
+  color: white;
+  padding: 5px;
 }
 .infoCard {
   margin: 10px;
   background-color: cadetblue;
+  padding: 20px;
+
+  border-radius: 5px;
 }
+
 ul {
   list-style: none;
   padding: 0;
   text-align: center;
 }
+
 li button {
   background-color: var(--sideColor);
   color: white;
@@ -55,4 +70,8 @@ li button {
 }
 li button:hover {
   background-color: #405de0;
+}
+.results {
+  display: flex;
+  justify-content: space-evenly;
 }
