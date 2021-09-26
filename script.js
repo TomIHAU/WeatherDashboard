@@ -8,7 +8,7 @@ var pastResult = [];
 function getInfo(event){
     event.preventDefault();
     var searchInputVal = document.querySelector("#searchInput").value.trim();
-    pastSearch.push(searchInputVal);
+    
 
     if (!searchInputVal){
         console.log("please search for a city")
@@ -16,23 +16,23 @@ function getInfo(event){
     }
 
     var searchApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchInputVal + "&appid=43ae064b43fdce4552702399802b6511&units=metric"
-    //console.log(searchApi);
-
+    
     fetch(searchApi)
     .then(function(response){
-        if (!response){
+        if (!response.ok){
             throw(error);
         }
         return response.json()
-    }).catch(function(err){
-        console.log(err);
-        return "this is the answer";
-      })
-    .then(function(Api){
-        //console.log(Api)
+    })
+    .then(function(Api){ 
+        pastSearch.push(searchInputVal);
         pastResult.push(Api)
         displayResults(Api);
     })
+    .catch(function(error){
+        console.log(error);
+        return;
+      })
 }
 
 function displayResults(Api){
@@ -48,7 +48,7 @@ function displayResults(Api){
         dateEl.innerText = moment.unix(Api.list[i].dt).format("DD/MM/YYYY");
         weatherCardEl.appendChild(dateEl)
 
-        var icon = document.createElement("i")
+        var icon = document.createElement("img")
         icon.src = "http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png"
         weatherCardEl.appendChild(icon)
 
@@ -109,8 +109,6 @@ function createList(){
         searchHistoryEl.appendChild(li);
     }
 }
+
 oldBtn.addEventListener("click", displayOld);
 searchFormEl.addEventListener("submit", getInfo);
-
-
-/////// the buttons need to not call the input, but rather need to call the right ## in the array
