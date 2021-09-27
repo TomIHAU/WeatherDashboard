@@ -44,7 +44,11 @@ function displayResults(Api){
         var weatherCardEl = document.createElement('div')
         weatherCardEl.classList = "infoCard";
 
-        var dateEl = document.createElement("h4");
+        var dayEl = document.createElement("div");
+        dayEl.innerText = moment.unix(Api.list[i].dt).format("dddd");
+        weatherCardEl.appendChild(dayEl)
+
+        var dateEl = document.createElement("div");
         dateEl.innerText = moment.unix(Api.list[i].dt).format("DD/MM/YYYY");
         weatherCardEl.appendChild(dateEl)
 
@@ -65,11 +69,6 @@ function displayResults(Api){
         weatherCardEl.appendChild(humidityEl)
         
         resultsEl.appendChild(weatherCardEl)
-
-        
-        
-        //console.log(Api.list[i].weather[0].icon)
-        //console.log("http://openweathermap.org/img/wn/" + Api.list[i].weather[0].icon + "@2x.png")
         
     }
     createList();
