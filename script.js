@@ -4,7 +4,6 @@ var resultsEl = document.querySelector(".results");
 var oldBtn = document.querySelector("ul");
 var oldSearches = JSON.parse(localStorage.getItem("weatherDashSearches"));
 var pastSearch = [];
-var pastResult = [];
 
 function getInfo(event) {
   event.preventDefault();
@@ -14,7 +13,7 @@ function getInfo(event) {
     console.log("please search for a city");
     return;
   }
-
+  createList();
   gettingResults(searchInputVal);
 }
 
@@ -33,7 +32,7 @@ function gettingResults(searchInput) {
     })
     .then(function (Api) {
       pastSearch.push(searchInput);
-      pastResult.push(Api);
+
       displayResults(Api);
     })
     .catch(function (error) {
@@ -78,7 +77,6 @@ function displayResults(Api) {
 
     resultsEl.appendChild(weatherCardEl);
   }
-  createList();
 }
 
 function displayOld(event) {
@@ -95,8 +93,12 @@ function createList() {
   if (oldSearches != undefined) {
     pastSearch = oldSearches;
   }
+
   if (pastSearch.length > 5) {
-    pastSearch.shift();
+    var remove = pastSearch.length;
+    for (i = 5; i < remove; i++) {
+      pastSearch.shift();
+    }
   }
 
   for (let i = 0; i < pastSearch.length; i++) {
@@ -110,6 +112,7 @@ function createList() {
   }
   localStorage.setItem("weatherDashSearches", JSON.stringify(pastSearch));
 }
+
 createList();
 oldBtn.addEventListener("click", displayOld);
 searchFormEl.addEventListener("submit", getInfo);
