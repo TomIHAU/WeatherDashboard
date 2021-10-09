@@ -4,14 +4,14 @@
 
 html,
 body {
-  color: #443025;
-  background-color: #bcb8b3;
+  color: #19211c;
+  background-color: #bbcec4;
   margin: 0;
   height: 100%;
 }
 header {
   background-color: #8a644c;
-  color: #bcb8b3;
+  color: #bbcec4;
   text-align: center;
   padding: 30px;
 }
@@ -19,7 +19,7 @@ h1 {
   margin: 0;
 }
 aside {
-  color: #bcb8b3;
+  color: #bbcec4;
   float: left;
   width: 25%;
   height: 100%;
@@ -78,4 +78,7 @@ li button:hover {
 .results {
   display: flex;
   justify-content: space-evenly;
+}
+button {
+  border-radius: 5px;
 }
