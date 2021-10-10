@@ -13,10 +13,9 @@ body {
   background-color: #19211c;
   padding: 20px;
   line-height: 20px;
-  border-radius: 5px;
-  display: flex;
   color: aliceblue;
   text-align: center;
+  display: none;
 }
 header {
   background-color: #8a644c;
@@ -90,4 +89,7 @@ li button:hover {
 }
 button {
   border-radius: 5px;
+}
+#disTitle {
+  display: none;
 }

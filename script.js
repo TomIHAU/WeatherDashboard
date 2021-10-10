@@ -3,6 +3,7 @@ var searchHistoryEl = document.querySelector(".searchHistory");
 var resultsEl = document.querySelector(".results");
 var oldBtn = document.querySelector("ul");
 var todayResultsEl = document.querySelector(".today");
+var disTitleEl = document.querySelector("#disTitle");
 var oldSearches = JSON.parse(localStorage.getItem("weatherDashSearches"));
 var pastSearch = [];
 
@@ -33,7 +34,6 @@ function gettingResults(searchInput) {
     })
     .then(function (Api) {
       pastSearch.push(searchInput);
-      displayTodaysResults(Api);
 
       displayResults(Api);
     })
@@ -41,28 +41,30 @@ function gettingResults(searchInput) {
       console.log(error);
       return;
     });
-  // var todaysSearch =
-  //   "https://api.openweathermap.org/data/2.5/weather?q=" +
-  //   searchInput +
-  //   "&appid=43ae064b43fdce4552702399802b6511";
-  // fetch(todaysSearch)
-  //   .then(function (response) {
-  //     if (!response.ok) {
-  //       throw error;
-  //     }
-  //     return response.json();
-  //   })
-  //   .then(function (Api) {
+  var todaysSearch =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    searchInput +
+    "&appid=43ae064b43fdce4552702399802b6511&units=metric";
+  fetch(todaysSearch)
+    .then(function (response) {
+      if (!response.ok) {
+        throw error;
+      }
 
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //     return;
-  //   });
+      return response.json();
+    })
+    .then(function (Api) {
+      displayTodaysResults(Api);
+    })
+    .catch(function (error) {
+      console.log(error);
+      return;
+    });
 }
 
 function displayResults(Api) {
   resultsEl.innerHTML = "";
+  disTitleEl.style.display = "block";
   for (let i = 0; i < Api.list.length; i += 8) {
     var weatherCardEl = document.createElement("div");
     weatherCardEl.classList = "infoCard";
@@ -100,12 +102,24 @@ function displayResults(Api) {
 }
 
 function displayTodaysResults(Api) {
+  todayResultsEl.style.display = "block";
   todayResultsEl.innerHTML = "";
-  var todayEl = document.createElement("h2");
-  todayEl.innerText = moment(Api.list[0].dt).format("LLLL");
-  todayResultsEl.appendChild(todayEl);
-}
 
+  var todayEl = document.createElement("h2");
+  todayEl.innerText = moment
+    .unix(Api.dt + Api.timezone - 39600)
+    .format("dddd, Mo MMMM, h:mmA");
+  todayResultsEl.appendChild(todayEl);
+
+  var tempNow = document.createElement("div");
+  tempNow.innerText =
+    "The temperature now is " + Math.floor(Api.main.temp) + " °C";
+  todayResultsEl.appendChild(tempNow);
+
+  var descNow = document.createElement("div");
+  descNow.innerText = "It is currently " + Api.weather[0].description;
+  todayResultsEl.appendChild(descNow);
+} /////////Sunday, October 10, 2021 2:17 PM
 function displayOld(event) {
   var element = event.target;
   if (element.matches("button") === true) {
