@@ -4,4 +4,4 @@ weather dashboard, using local storage and webapi to display the weather on the 
 saves the past five searchs
 
 
-![image](https://user-images.githubusercontent.com/88224502/135380749-46b516c1-cc3a-4929-a9af-a4fde80b83a4.png)
+![image](https://user-images.githubusercontent.com/88224502/136686667-b183af53-74e7-4185-8b15-47b325b20918.png)
