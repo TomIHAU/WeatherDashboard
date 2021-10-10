@@ -119,7 +119,7 @@ function displayTodaysResults(Api) {
   var descNow = document.createElement("div");
   descNow.innerText = "It is currently " + Api.weather[0].description;
   todayResultsEl.appendChild(descNow);
-} /////////Sunday, October 10, 2021 2:17 PM
+}
 function displayOld(event) {
   var element = event.target;
   if (element.matches("button") === true) {
