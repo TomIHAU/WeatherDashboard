@@ -9,6 +9,15 @@ body {
   margin: 0;
   height: 100%;
 }
+.today {
+  background-color: #19211c;
+  padding: 20px;
+  line-height: 20px;
+  border-radius: 5px;
+  display: flex;
+  color: aliceblue;
+  text-align: center;
+}
 header {
   background-color: #8a644c;
   color: #bbcec4;

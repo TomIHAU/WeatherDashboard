@@ -2,6 +2,7 @@ var searchFormEl = document.querySelector("#searchForm");
 var searchHistoryEl = document.querySelector(".searchHistory");
 var resultsEl = document.querySelector(".results");
 var oldBtn = document.querySelector("ul");
+var todayResultsEl = document.querySelector(".today");
 var oldSearches = JSON.parse(localStorage.getItem("weatherDashSearches"));
 var pastSearch = [];
 
@@ -32,6 +33,7 @@ function gettingResults(searchInput) {
     })
     .then(function (Api) {
       pastSearch.push(searchInput);
+      displayTodaysResults(Api);
 
       displayResults(Api);
     })
@@ -39,6 +41,24 @@ function gettingResults(searchInput) {
       console.log(error);
       return;
     });
+  // var todaysSearch =
+  //   "https://api.openweathermap.org/data/2.5/weather?q=" +
+  //   searchInput +
+  //   "&appid=43ae064b43fdce4552702399802b6511";
+  // fetch(todaysSearch)
+  //   .then(function (response) {
+  //     if (!response.ok) {
+  //       throw error;
+  //     }
+  //     return response.json();
+  //   })
+  //   .then(function (Api) {
+
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //     return;
+  //   });
 }
 
 function displayResults(Api) {
@@ -77,6 +97,13 @@ function displayResults(Api) {
 
     resultsEl.appendChild(weatherCardEl);
   }
+}
+
+function displayTodaysResults(Api) {
+  todayResultsEl.innerHTML = "";
+  var todayEl = document.createElement("h2");
+  todayEl.innerText = moment(Api.list[0].dt).format("LLLL");
+  todayResultsEl.appendChild(todayEl);
 }
 
 function displayOld(event) {
