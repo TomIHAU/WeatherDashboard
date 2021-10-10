@@ -15,7 +15,7 @@ function getInfo(event) {
     console.log("please search for a city");
     return;
   }
-  createList();
+
   gettingResults(searchInputVal);
 }
 
@@ -34,7 +34,7 @@ function gettingResults(searchInput) {
     })
     .then(function (Api) {
       pastSearch.push(searchInput);
-
+      createList();
       displayResults(Api);
     })
     .catch(function (error) {
@@ -120,6 +120,7 @@ function displayTodaysResults(Api) {
   descNow.innerText = "It is currently " + Api.weather[0].description;
   todayResultsEl.appendChild(descNow);
 }
+
 function displayOld(event) {
   var element = event.target;
   if (element.matches("button") === true) {
