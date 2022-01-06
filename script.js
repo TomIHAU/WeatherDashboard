@@ -19,48 +19,47 @@ function getInfo(event) {
   gettingResults(searchInputVal);
 }
 
-function gettingResults(searchInput) {
-  var searchApi =
-    "https://api.openweathermap.org/data/2.5/forecast?q=" +
-    searchInput +
-    "&appid=43ae064b43fdce4552702399802b6511&units=metric";
+const gettingResults = async (searchInput) => {
+  try {
+    const searchApiRoute =
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
+      searchInput +
+      "&appid=43ae064b43fdce4552702399802b6511&units=metric";
 
-  fetch(searchApi)
-    .then(function (response) {
-      if (!response.ok) {
-        throw error;
-      }
-      return response.json();
-    })
-    .then(function (Api) {
-      pastSearch.push(searchInput);
-      createList();
-      displayResults(Api);
-    })
-    .catch(function (error) {
-      console.log(error);
-      return;
-    });
-  var todaysSearch =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    searchInput +
-    "&appid=43ae064b43fdce4552702399802b6511&units=metric";
-  fetch(todaysSearch)
-    .then(function (response) {
-      if (!response.ok) {
-        throw error;
-      }
+    const response = await fetch(searchApiRoute);
+    if (!response.ok) {
+      throw err;
+    }
 
-      return response.json();
-    })
-    .then(function (Api) {
-      displayTodaysResults(Api);
-    })
-    .catch(function (error) {
-      console.log(error);
-      return;
-    });
-}
+    const readableApi = await response.json();
+
+    await pastSearch.push(searchInput);
+    await createList();
+    await displayResults(readableApi);
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+  try {
+    const todaysSearch =
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
+      searchInput +
+      "&appid=43ae064b43fdce4552702399802b6511&units=metric";
+
+    const todaysResponse = await fetch(todaysSearch);
+
+    if (!todaysSearch.ok) {
+      throw err;
+    }
+
+    const readableTodaysResponse = await todaysResponse.json();
+
+    await displayTodaysResults(readableTodaysResponse);
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
 
 function displayResults(Api) {
   resultsEl.innerHTML = "";
