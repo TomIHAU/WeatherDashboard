@@ -27,31 +27,18 @@ const gettingResults = async (searchInput) => {
       "&appid=43ae064b43fdce4552702399802b6511&units=metric";
 
     const response = await fetch(searchApiRoute);
-    if (!response.ok) {
-      throw err;
-    }
-
     const readableApi = await response.json();
 
     await pastSearch.push(searchInput);
     await createList();
     await displayResults(readableApi);
-  } catch (err) {
-    console.log(err);
-    return;
-  }
-  try {
+
     const todaysSearch =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       searchInput +
       "&appid=43ae064b43fdce4552702399802b6511&units=metric";
 
     const todaysResponse = await fetch(todaysSearch);
-
-    if (!todaysSearch.ok) {
-      throw err;
-    }
-
     const readableTodaysResponse = await todaysResponse.json();
 
     await displayTodaysResults(readableTodaysResponse);
@@ -64,6 +51,7 @@ const gettingResults = async (searchInput) => {
 function displayResults(Api) {
   resultsEl.innerHTML = "";
   disTitleEl.style.display = "block";
+  //increments through one in eight, which is 24 hours apart, return only one result per day.
   for (let i = 0; i < Api.list.length; i += 8) {
     var weatherCardEl = document.createElement("div");
     weatherCardEl.classList = "infoCard";
@@ -77,23 +65,21 @@ function displayResults(Api) {
     weatherCardEl.appendChild(dateEl);
 
     var icon = document.createElement("img");
-    icon.src =
-      "http://openweathermap.org/img/wn/" +
-      Api.list[i].weather[0].icon +
-      "@2x.png";
+    icon.src = `http://openweathermap.org/img/wn/${Api.list[i].weather[0].icon}@2x.png`;
     weatherCardEl.appendChild(icon);
 
     var tempEl = document.createElement("div");
-    tempEl.innerText = "Temp: " + Math.round(Api.list[i].main.temp) + " °C";
+    tempEl.innerText = `Temp: ${Math.round(Api.list[i].main.temp)} °C`;
     weatherCardEl.appendChild(tempEl);
 
     var windSpeedEl = document.createElement("div");
-    windSpeedEl.innerText =
-      "Wind: " + Math.round(Api.list[i].wind.speed * 3.6) + " km/h";
+    windSpeedEl.innerText = `Wind: ${Math.round(
+      Api.list[i].wind.speed * 3.6
+    )} km/h`;
     weatherCardEl.appendChild(windSpeedEl);
 
     var humidityEl = document.createElement("div");
-    humidityEl.innerText = "Humidity: " + Api.list[i].main.humidity + " %";
+    humidityEl.innerText = `Humidity: ${Api.list[i].main.humidity} %`;
     weatherCardEl.appendChild(humidityEl);
 
     resultsEl.appendChild(weatherCardEl);
@@ -111,12 +97,11 @@ function displayTodaysResults(Api) {
   todayResultsEl.appendChild(todayEl);
 
   var tempNow = document.createElement("div");
-  tempNow.innerText =
-    "The temperature now is " + Math.floor(Api.main.temp) + " °C";
+  tempNow.innerText = `The temperature now is ${Math.floor(Api.main.temp)} °C`;
   todayResultsEl.appendChild(tempNow);
 
   var descNow = document.createElement("div");
-  descNow.innerText = "It is currently " + Api.weather[0].description;
+  descNow.innerText = `It is currently ${Api.weather[0].description}`;
   todayResultsEl.appendChild(descNow);
 }
 
