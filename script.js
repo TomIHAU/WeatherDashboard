@@ -10,7 +10,17 @@ const localStorageSearches = JSON.parse(
 let pastSearch = [];
 
 const addToPastSearch = (newSearch) => {
-  pastSearch.includes(newSearch) ? pastSearch : pastSearch.push(newSearch);
+  const LCSearch = newSearch.toLowerCase();
+
+  const caseInsensitive = pastSearch.filter((element) => {
+    return element.toLowerCase() === LCSearch;
+  });
+
+  if (caseInsensitive.length === 0) {
+    const newSearchFirstCap =
+      LCSearch.charAt(0).toUpperCase() + LCSearch.slice(1);
+    pastSearch.push(newSearchFirstCap);
+  }
 };
 
 const getInfo = (event) => {
