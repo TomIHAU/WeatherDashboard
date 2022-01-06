@@ -4,10 +4,16 @@ const resultsEl = document.querySelector(".results");
 const oldBtn = document.querySelector("ul");
 const todayResultsEl = document.querySelector(".today");
 const disTitleEl = document.querySelector("#disTitle");
-const oldSearches = JSON.parse(localStorage.getItem("weatherDashSearches"));
+const localStorageSearches = JSON.parse(
+  localStorage.getItem("weatherDashSearches")
+);
 let pastSearch = [];
 
-function getInfo(event) {
+const addToPastSearch = (newSearch) => {
+  pastSearch.includes(newSearch) ? pastSearch : pastSearch.push(newSearch);
+};
+
+const getInfo = (event) => {
   event.preventDefault();
   let searchInputVal = document.querySelector("#searchInput").value.trim();
 
@@ -15,9 +21,8 @@ function getInfo(event) {
     console.log("please search for a city");
     return;
   }
-
   gettingResults(searchInputVal);
-}
+};
 
 const gettingResults = async (searchInput) => {
   try {
@@ -26,7 +31,7 @@ const gettingResults = async (searchInput) => {
     const response = await fetch(searchApiRoute);
     const readableApi = await response.json();
 
-    await pastSearch.push(searchInput);
+    await addToPastSearch(searchInput);
     await createList();
     await displayResults(readableApi);
 
@@ -100,23 +105,20 @@ function displayTodaysResults(Api) {
 }
 
 function displayOld(event) {
-  let element = event.target;
-  if (element.matches("button") === true) {
+  if (event.target.matches("button") === true) {
     let thisSearch = element.innerHTML;
-
     gettingResults(thisSearch);
   }
 }
 
 function createList() {
   searchHistoryEl.innerHTML = "";
-  if (oldSearches != undefined) {
-    pastSearch = oldSearches;
+  if (localStorageSearches != undefined) {
+    pastSearch = localStorageSearches;
   }
 
   if (pastSearch.length > 5) {
-    let remove = pastSearch.length;
-    for (i = 5; i < remove; i++) {
+    for (let i = 5; i < pastSearch.length; i++) {
       pastSearch.shift();
     }
   }
