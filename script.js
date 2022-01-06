@@ -64,32 +64,16 @@ function displayResults(Api) {
   for (let i = 0; i < Api.list.length; i += 8) {
     let weatherCardEl = document.createElement("div");
     weatherCardEl.classList = "infoCard";
-
-    let dayEl = document.createElement("div");
-    dayEl.innerText = moment.unix(Api.list[i].dt).format("dddd");
-    weatherCardEl.appendChild(dayEl);
-
-    let dateEl = document.createElement("div");
-    dateEl.innerText = moment.unix(Api.list[i].dt).format("DD/MM/YYYY");
-    weatherCardEl.appendChild(dateEl);
-
-    let icon = document.createElement("img");
-    icon.src = `http://openweathermap.org/img/wn/${Api.list[i].weather[0].icon}@2x.png`;
-    weatherCardEl.appendChild(icon);
-
-    let tempEl = document.createElement("div");
-    tempEl.innerText = `Temp: ${Math.round(Api.list[i].main.temp)} °C`;
-    weatherCardEl.appendChild(tempEl);
-
-    let windSpeedEl = document.createElement("div");
-    windSpeedEl.innerText = `Wind: ${Math.round(
-      Api.list[i].wind.speed * 3.6
-    )} km/h`;
-    weatherCardEl.appendChild(windSpeedEl);
-
-    let humidityEl = document.createElement("div");
-    humidityEl.innerText = `Humidity: ${Api.list[i].main.humidity} %`;
-    weatherCardEl.appendChild(humidityEl);
+    weatherCardEl.innerHTML = `
+    <div>${moment.unix(Api.list[i].dt).format("dddd")}</div>
+    <div>${moment.unix(Api.list[i].dt).format("DD/MM/YYYY")}</div>
+    <img src="http://openweathermap.org/img/wn/${
+      Api.list[i].weather[0].icon
+    }@2x.png">
+    <div>Temp: ${Math.round(Api.list[i].main.temp)} °C</div>
+    <div>Wind: ${Math.round(Api.list[i].wind.speed * 3.6)} km/h</div>
+    <div>Humidity: ${Api.list[i].main.humidity} %</div>
+    `;
 
     resultsEl.appendChild(weatherCardEl);
   }
@@ -97,21 +81,13 @@ function displayResults(Api) {
 
 function displayTodaysResults(Api) {
   todayResultsEl.style.display = "block";
-  todayResultsEl.innerHTML = "";
-
-  let todayEl = document.createElement("h2");
-  todayEl.innerText = moment
+  todayResultsEl.innerHTML = `<div class="today" style="display: block;">
+  <h2>${moment
     .unix(Api.dt + Api.timezone - 39600)
-    .format("dddd, Mo MMMM, h:mmA");
-  todayResultsEl.appendChild(todayEl);
-
-  let tempNow = document.createElement("div");
-  tempNow.innerText = `The temperature now is ${Math.floor(Api.main.temp)} °C`;
-  todayResultsEl.appendChild(tempNow);
-
-  let descNow = document.createElement("div");
-  descNow.innerText = `It is currently ${Api.weather[0].description}`;
-  todayResultsEl.appendChild(descNow);
+    .format("dddd, Mo MMMM, h:mmA")}</h2>
+  <div>The temperature now is ${Math.floor(Api.main.temp)} °C</div>
+  <div>It is currently ${Api.weather[0].description}</div>
+  </div>`;
 }
 
 function displayOld(event) {
