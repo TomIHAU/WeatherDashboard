@@ -4,7 +4,7 @@ const resultsEl = document.querySelector(".results");
 const oldBtn = document.querySelector("ul");
 const todayResultsEl = document.querySelector(".today");
 const disTitleEl = document.querySelector("#disTitle");
-const localStorageSearches = JSON.parse(
+let localStorageSearches = JSON.parse(
   localStorage.getItem("weatherDashSearches")
 );
 let pastSearch = [];
@@ -116,7 +116,7 @@ function displayTodaysResults(Api) {
 
 function displayOld(event) {
   if (event.target.matches("button") === true) {
-    let thisSearch = element.innerHTML;
+    let thisSearch = event.target.innerHTML;
     gettingResults(thisSearch);
   }
 }
