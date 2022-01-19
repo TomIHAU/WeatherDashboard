@@ -58,15 +58,19 @@ const gettingResults = async (searchInput) => {
 };
 
 function displayResults(Api) {
+  console.log(Api);
   resultsEl.innerHTML = "";
   disTitleEl.style.display = "block";
   //increments through one in eight, which is 24 hours apart, return only one result per day.
   for (let i = 0; i < Api.list.length; i += 8) {
     let weatherCardEl = document.createElement("div");
     weatherCardEl.classList = "infoCard";
-    weatherCardEl.innerHTML = `
-    <div>${moment.unix(Api.list[i].dt).format("dddd")}</div>
-    <div>${moment.unix(Api.list[i].dt).format("DD/MM/YYYY")}</div>
+    weatherCardEl.innerHTML = `<div class="infoTop">
+    <div>${moment.unix(Api.list[i].dt).format("ddd").toUpperCase()}</div>
+    <div>${moment
+      .unix(Api.list[i].dt)
+      .format("MMM D")
+      .toUpperCase()}</div></div>
     <img src="http://openweathermap.org/img/wn/${
       Api.list[i].weather[0].icon
     }@2x.png">
@@ -81,13 +85,14 @@ function displayResults(Api) {
 
 function displayTodaysResults(Api) {
   todayResultsEl.style.display = "block";
-  todayResultsEl.innerHTML = `<div class="today" style="display: block;">
+  todayResultsEl.innerHTML = `
+  <h2>Today</h2>
   <h2>${moment
     .unix(Api.dt + Api.timezone - 39600)
     .format("dddd, Mo MMMM, h:mmA")}</h2>
   <div>The temperature now is ${Math.floor(Api.main.temp)} °C</div>
   <div>It is currently ${Api.weather[0].description}</div>
-  </div>`;
+  `;
 }
 
 function displayOld(event) {
