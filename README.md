@@ -13,4 +13,7 @@ which makes the response for time and weather incorrect for someone searching fr
 
 ## Screenshot
 
+![image](https://user-images.githubusercontent.com/88224502/150083355-f0a93a84-7938-492d-b860-bac6d7523203.png)
+
+### Screenshot of older version
 ![image](https://user-images.githubusercontent.com/88224502/136686667-b183af53-74e7-4185-8b15-47b325b20918.png)
